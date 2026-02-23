@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>SPUTNIK FIVE | One-Man Agency High Performance</title>
+    <title>Quiz Sputnik Five | Diagnóstico de Automação</title>
     
     <!-- Google Fonts: Montserrat -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -11,21 +11,21 @@
     <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;700;900&display=swap" rel="stylesheet">
 
     <style>
-        /* --- 1. DESIGN SYSTEM & VARIÁVEIS --- */
+        /* --- DESIGN SYSTEM SPUTNIK FIVE --- */
         :root {
-            /* Cores Base */
             --bg-primary: #000000;
             --bg-secondary: #0a0a0a;
             --bg-card: #111111;
+            --bg-input: #1a1a1a;
+            
             --text-primary: #FFFFFF;
             --text-secondary: #E0E0E0;
             --text-muted: #888888;
             
             /* Gradiente Assinatura */
             --brand-gradient: linear-gradient(135deg, #FF5E00 0%, #FF00AA 100%);
-            --brand-glow: 0 0 20px rgba(255, 94, 0, 0.4);
+            --brand-glow: 0 0 30px rgba(255, 94, 0, 0.3);
             
-            /* Tipografia */
             --font-main: 'Montserrat', sans-serif;
         }
 
@@ -39,17 +39,17 @@
             background-color: var(--bg-primary);
             color: var(--text-secondary);
             font-family: var(--font-main);
+            min-height: 100vh;
+            padding: 20px;
             line-height: 1.6;
-            overflow-x: hidden;
         }
 
         /* --- TIPOGRAFIA --- */
-        h1, h2, h3, h4 {
+        h1, h2, h3 {
             font-weight: 900;
             text-transform: uppercase;
             color: var(--text-primary);
             letter-spacing: -1px;
-            line-height: 1.1;
         }
 
         .gradient-text {
@@ -57,485 +57,567 @@
             -webkit-background-clip: text;
             -webkit-text-fill-color: transparent;
             background-clip: text;
-            display: inline-block;
         }
 
-        p {
-            font-weight: 300;
-            font-size: 1.1rem;
+        /* --- CONTAINER PRINCIPAL --- */
+        .quiz-container {
+            max-width: 800px;
+            margin: 40px auto;
+            background: var(--bg-card);
+            border: 1px solid #222;
+            border-radius: 4px; /* Aspecto Técnico */
+            padding: 40px;
+            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.5);
+            position: relative;
         }
 
-        /* --- COMPONENTES --- */
-        .container {
-            max-width: 1200px;
-            margin: 0 auto;
-            padding: 0 20px;
+        .quiz-container::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 2px;
+            background: var(--brand-gradient);
+            opacity: 0.8;
         }
 
-        .btn-gradient {
-            display: inline-block;
+        /* --- STEPS & ANIMAÇÃO --- */
+        .step {
+            display: none;
+            animation: fadeIn 0.4s ease-out;
+        }
+
+        .step.active {
+            display: block;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        h1 {
+            text-align: center;
+            font-size: 2rem;
+            margin-bottom: 10px;
+        }
+
+        h1 .gradient-text {
+            display: block;
+            font-size: 1.5rem;
+            margin-top: 5px;
+        }
+
+        h2 {
+            font-size: 1.3rem;
+            margin-bottom: 15px;
+            color: var(--text-primary);
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        h2::before {
+            content: '';
+            display: block;
+            width: 4px;
+            height: 20px;
+            background: var(--brand-gradient);
+        }
+
+        .question {
+            font-size: 1.2rem;
+            margin: 30px 0;
+            color: var(--text-primary);
+            font-weight: 400;
+        }
+
+        /* --- OPÇÕES --- */
+        .options {
+            display: grid;
+            gap: 12px;
+            margin-bottom: 40px;
+        }
+
+        .option {
+            background: var(--bg-input);
+            padding: 18px 20px;
+            border-radius: 4px;
+            cursor: pointer;
+            transition: all 0.2s ease;
+            border: 1px solid #333;
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            font-size: 0.95rem;
+        }
+
+        .option::before {
+            content: '';
+            width: 18px;
+            height: 18px;
+            border: 2px solid #444;
+            border-radius: 50%;
+            flex-shrink: 0;
+            transition: 0.2s;
+        }
+
+        .option:hover {
+            border-color: #FF5E00;
+            background: #222;
+        }
+
+        .option.selected {
+            border-color: #FF00AA;
+            background: rgba(255, 0, 170, 0.05);
+        }
+
+        .option.selected::before {
+            background: var(--brand-gradient);
+            border-color: transparent;
+            box-shadow: 0 0 10px rgba(255, 94, 0, 0.5);
+        }
+
+        /* --- BARRA DE PROGRESSO --- */
+        .progress-bar {
+            width: 100%;
+            height: 4px;
+            background: #222;
+            border-radius: 2px;
+            margin: 20px 0 40px 0;
+            overflow: hidden;
+        }
+
+        .progress {
+            height: 100%;
+            background: var(--brand-gradient);
+            transition: width 0.4s ease;
+            box-shadow: 0 0 10px rgba(255, 94, 0, 0.3);
+        }
+
+        /* --- BOTÕES --- */
+        .btn {
             background: var(--brand-gradient);
             color: white;
+            border: none;
             padding: 16px 40px;
+            border-radius: 4px;
+            font-size: 0.9rem;
             font-weight: 700;
             text-transform: uppercase;
-            text-decoration: none;
-            border-radius: 4px; /* Aspecto Técnico */
-            transition: all 0.3s ease;
-            border: none;
             cursor: pointer;
-            font-size: 0.9rem;
+            transition: all 0.3s ease;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            gap: 10px;
+            width: 100%;
         }
 
-        .btn-gradient:hover {
+        .btn:hover:not(:disabled) {
             transform: translateY(-2px);
             box-shadow: var(--brand-glow);
             filter: brightness(1.1);
         }
 
-        section {
-            padding: 100px 0;
-            border-bottom: 1px solid #1a1a1a;
+        .btn:disabled {
+            opacity: 0.4;
+            cursor: not-allowed;
+            filter: grayscale(1);
         }
 
-        /* --- HEADER --- */
-        header {
-            padding: 20px 0;
-            position: fixed;
-            width: 100%;
-            top: 0;
-            background: rgba(0,0,0,0.9);
-            backdrop-filter: blur(10px);
-            z-index: 1000;
-            border-bottom: 1px solid #1a1a1a;
-        }
-
-        nav {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-        }
-
-        .logo {
-            font-size: 1.5rem;
-            font-weight: 900;
-            letter-spacing: 2px;
-        }
-
-        /* --- HERO (SEÇÃO 1) --- */
-        .hero {
-            height: 100vh;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            text-align: center;
-            padding-top: 80px;
-            background: radial-gradient(circle at center, #1a050a 0%, #000000 70%);
-        }
-
-        .hero-content {
-            max-width: 900px;
-        }
-
-        .hero h1 {
-            font-size: 3.5rem;
-            margin-bottom: 20px;
-            line-height: 1.2;
-        }
-
-        .hero p {
-            font-size: 1.2rem;
+        .btn-secondary {
+            background: transparent;
+            border: 1px solid #444;
             color: var(--text-secondary);
-            margin-bottom: 40px;
-            max-width: 700px;
-            margin-left: auto;
-            margin-right: auto;
         }
 
-        /* --- PROBLEMA E SOLUÇÃO (SEÇÃO 2) --- */
-        .problem-solution {
-            background-color: var(--bg-primary);
+        .btn-secondary:hover {
+            border-color: var(--text-primary);
+            background: #1a1a1a;
         }
 
-        .split-layout {
-            display: grid;
-            grid-template-columns: 1fr 1fr;
-            gap: 60px;
-            align-items: center;
+        /* --- CARDS DE RESULTADO --- */
+        .result-card {
+            text-align: center;
+            padding: 30px;
+            background: var(--bg-input);
+            border: 1px solid #333;
+            border-radius: 4px;
+            margin: 25px 0;
         }
 
-        .stat-box {
-            border-left: 4px solid #FF5E00;
-            padding-left: 20px;
-            margin: 30px 0;
-        }
-
-        .stat-number {
+        .score {
             font-size: 4rem;
             font-weight: 900;
-            color: var(--text-primary);
+            margin: 15px 0;
+            background: var(--brand-gradient);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
             line-height: 1;
         }
 
-        /* --- ECOSSISTEMA (SEÇÃO 3) --- */
-        .ecosystem {
-            background-color: var(--bg-secondary);
-        }
-
-        .video-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(400px, 1fr));
-            gap: 30px;
-            margin-bottom: 60px;
-        }
-
-        .video-placeholder {
-            background: #1a1a1a;
-            height: 300px;
-            border-radius: 8px;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            justify-content: center;
-            border: 1px solid #333;
-            position: relative;
-            overflow: hidden;
-        }
-
-        .play-icon {
-            width: 60px;
-            height: 60px;
-            border: 2px solid var(--text-primary);
-            border-radius: 50%;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            margin-bottom: 15px;
-            transition: 0.3s;
-        }
-        
-        .play-icon::after {
-            content: '';
-            display: block;
-            width: 0; 
-            height: 0; 
-            border-left: 10px solid var(--text-primary);
-            border-top: 6px solid transparent;
-            border-bottom: 6px solid transparent;
-            margin-left: 4px;
-        }
-
-        .video-placeholder:hover .play-icon {
-            border-color: #FF00AA;
-            box-shadow: var(--brand-glow);
-        }
-
-        .templates-showcase {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
-            gap: 20px;
-        }
-
-        .template-card {
-            background: var(--bg-card);
-            border: 1px solid #222;
-            padding: 20px;
-            border-radius: 4px;
-        }
-
-        .template-card h4 {
-            font-size: 1rem;
-            margin-bottom: 10px;
-            color: var(--text-muted);
-            font-family: monospace;
-        }
-
-        /* --- PROVA SOCIAL (SEÇÃO 4) --- */
-        .social-proof {
-            background-color: var(--bg-primary);
-        }
-
-        .testimonial-card {
-            background: var(--bg-card);
-            padding: 40px;
-            border-radius: 8px;
-            border: 1px solid #222;
-            max-width: 800px;
-            margin: 0 auto;
-            position: relative;
-        }
-
-        .quote-icon {
-            font-size: 4rem;
-            color: #222;
-            position: absolute;
-            top: 20px;
-            left: 20px;
-            z-index: 0;
-        }
-
-        .testimonial-content {
-            position: relative;
-            z-index: 1;
-        }
-
-        .client-name {
-            margin-top: 20px;
-            font-weight: 700;
-            color: var(--text-primary);
-        }
-
-        .client-stats {
-            color: #FF5E00;
+        .score-label {
             font-size: 0.9rem;
-            font-weight: 700;
             text-transform: uppercase;
+            color: var(--text-muted);
+            letter-spacing: 2px;
         }
 
-        /* --- PREÇOS (SEÇÃO 5) --- */
-        .pricing {
-            background-color: var(--bg-secondary);
+        .recommendation {
+            font-size: 1.1rem;
+            line-height: 1.6;
         }
 
-        .pricing-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-            gap: 30px;
-            margin-top: 50px;
-        }
-
-        .pricing-card {
-            background: var(--bg-card);
-            padding: 40px;
-            border: 1px solid #222;
+        .solution-card {
+            background: rgba(255, 94, 0, 0.08);
+            padding: 25px;
             border-radius: 4px;
-            display: flex;
-            flex-direction: column;
-            transition: 0.3s;
+            margin: 30px 0;
+            border-left: 3px solid #FF5E00;
         }
 
-        .pricing-card.featured {
-            border: 1px solid #FF5E00;
-            box-shadow: 0 0 30px rgba(255, 94, 0, 0.1);
-        }
-
-        .pricing-header h3 {
-            font-size: 1.5rem;
+        .solution-card h2 {
+            font-size: 1.1rem;
             margin-bottom: 10px;
         }
 
-        .price {
-            font-size: 2.5rem;
-            font-weight: 900;
-            color: var(--text-primary);
-            margin-bottom: 30px;
+        /* --- BENEFÍCIOS GRID --- */
+        .benefits {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+            gap: 15px;
+            margin: 35px 0;
         }
 
-        .price span {
-            font-size: 1rem;
-            font-weight: 400;
-            color: var(--text-muted);
-        }
-
-        .features-list {
-            list-style: none;
-            margin-bottom: 40px;
-            flex-grow: 1;
-        }
-
-        .features-list li {
-            margin-bottom: 15px;
-            color: var(--text-secondary);
-            display: flex;
-            align-items: center;
-        }
-
-        .features-list li::before {
-            content: '✓';
-            color: #FF00AA;
-            margin-right: 10px;
-            font-weight: 900;
-        }
-
-        /* --- FOOTER --- */
-        footer {
-            padding: 60px 0;
+        .benefit {
             text-align: center;
-            border-top: 1px solid #1a1a1a;
+            padding: 20px;
+            background: var(--bg-input);
+            border: 1px solid #222;
+            border-radius: 4px;
+            transition: 0.3s;
+        }
+
+        .benefit:hover {
+            border-color: #444;
+        }
+
+        .benefit-icon {
+            font-size: 1.8rem;
+            margin-bottom: 10px;
+        }
+
+        .benefit h3 {
+            font-size: 0.9rem;
+            margin-bottom: 5px;
+            color: var(--text-primary);
+        }
+
+        .benefit p {
+            font-size: 0.8rem;
             color: var(--text-muted);
+        }
+
+        /* --- BOTÕES DUPLLOS (RESULTADO) --- */
+        .btn-group {
+            display: flex;
+            gap: 15px;
+            flex-wrap: wrap;
+        }
+
+        .btn-group .btn {
+            flex: 1;
+            min-width: 200px;
         }
 
         /* --- RESPONSIVIDADE --- */
-        @media (max-width: 768px) {
-            .hero h1 { font-size: 2.5rem; }
-            .split-layout { grid-template-columns: 1fr; }
-            .video-grid { grid-template-columns: 1fr; }
+        @media (max-width: 600px) {
+            .quiz-container {
+                padding: 25px;
+                margin: 20px auto;
+            }
+            
+            h1 { font-size: 1.5rem; }
+            h1 .gradient-text { font-size: 1.2rem; }
+            .question { font-size: 1.1rem; }
+            .score { font-size: 3rem; }
         }
     </style>
 </head>
 <body>
-
-    <!-- Header -->
-    <header>
-        <div class="container">
-            <nav>
-                <div class="logo">SPUTNIK<span class="gradient-text">FIVE</span></div>
-                <a href="#pricing" class="btn-gradient" style="padding: 10px 20px; font-size: 0.8rem;">Ver Planos</a>
-            </nav>
-        </div>
-    </header>
-
-    <!-- Seção 1: Hero (Atenção) -->
-    <section class="hero">
-        <div class="container hero-content">
-            <h1>ESCALA OPERACIONAL DE CONTEÚDO:<br><span class="gradient-text">VOLUME, ESTRATÉGIA E PERFORMANCE</span></h1>
-            <p>Sistema RAG proprietário para geração de cópias personalizadas em sistemas AIDA, PAS e Storytelling. Automação de ponta a ponta.</p>
-            <a href="#contato" class="btn-gradient">AGENDAR DIAGNÓSTICO TÉCNICO</a>
-        </div>
-    </section>
-
-    <!-- Seção 2: O Problema e a Solução (PAS) -->
-    <section class="problem-solution">
-        <div class="container">
-            <div class="split-layout">
-                <div>
-                    <h2>O Gargalo da Produção <span class="gradient-text">Manual</span></h2>
-                    <p style="margin-top: 20px;">Agências tradicionais dependem de editores humanos para tarefas repetitivas. Isso gera inconsistência no feed, atrasos na entrega e custos operacionais insustentáveis.</p>
-                </div>
-                <div>
-                    <div class="stat-box">
-                        <div class="stat-number">80%</div>
-                        <p>Redução no tempo de produção através da nossa Render Farm automatizada.</p>
-                    </div>
-                    <div class="stat-box">
-                        <div class="stat-number">100%</div>
-                        <p>Consistência técnica garantida por scripts JS no After Effects.</p>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </section>
-
-    <!-- Seção 3: Demonstração do Ecossistema -->
-    <section class="ecosystem">
-        <div class="container">
-            <h2 style="text-align: center; margin-bottom: 50px;">ECOSSISTEMA DE <span class="gradient-text">AUTOMAÇÃO</span></h2>
+    <div class="quiz-container">
+        
+        <!-- Introdução -->
+        <div class="step active" id="step0">
+            <h1>🚀 Quiz Sputnik Five<span class="gradient-text">Diagnóstico de Automação</span></h1>
             
-            <!-- Placeholders de Vídeo -->
-            <div class="video-grid">
-                <div class="video-placeholder">
-                    <div class="play-icon"></div>
-                    <h4>O MOTOR RAG</h4>
-                    <p style="font-size: 0.8rem; color: #888;">Ingestão de documentos e geração de copy</p>
-                </div>
-                <div class="video-placeholder">
-                    <div class="play-icon"></div>
-                    <h4>RENDER FARM EM AÇÃO</h4>
-                    <p style="font-size: 0.8rem; color: #888;">Processamento de scripts JS em lote</p>
-                </div>
+            <div class="question" style="text-align: center; margin-top: 30px;">
+                <p>Descubra em 2 minutos se você está perdendo tempo (e dinheiro) criando conteúdo manualmente.</p>
+                <p style="color: var(--text-muted); margin-top: 10px; font-size: 1rem;">Responda sinceramente e receba um diagnóstico personalizado + 3 posts gratuitos.</p>
             </div>
-
-            <!-- Vitrine de Templates -->
-            <div class="templates-showcase">
-                <div class="template-card">
-                    <h4>Template_Instagram_Reels_001</h4>
-                    <div style="height: 100px; background: #222; margin-bottom: 10px;"></div>
-                    <p style="font-size: 0.8rem;">Vertical 9:16 • Motion Graphics</p>
-                </div>
-                <div class="template-card">
-                    <h4>Template_Carousel_002</h4>
-                    <div style="height: 100px; background: #222; margin-bottom: 10px;"></div>
-                    <p style="font-size: 0.8rem;">Quadrado 1:1 • Educacional</p>
-                </div>
-                <div class="template-card">
-                    <h4>Template_Educational_004</h4>
-                    <div style="height: 100px; background: #222; margin-bottom: 10px;"></div>
-                    <p style="font-size: 0.8rem;">Stories 9:16 • Narrativo</p>
-                </div>
-            </div>
-        </div>
-    </section>
-
-    <!-- Seção 4: Prova Social e Modelo Híbrido -->
-    <section class="social-proof">
-        <div class="container">
-            <div class="testimonial-card">
-                <div class="quote-icon">"</div>
-                <div class="testimonial-content">
-                    <p style="font-size: 1.3rem; color: var(--text-primary);">"A Sputnik Five transformou nossa operação. Onde levávamos 3 dias para editar, agora temos volume diário sem perder a qualidade. A automação é a porta de entrada para o volume, permitindo que foquemos na estratégia."</p>
-                    <div class="client-name">DR. AYRTON</div>
-                    <div class="client-stats">Case: 100k Seguidores em 10 Meses</div>
-                </div>
-            </div>
-        </div>
-    </section>
-
-    <!-- Seção 5: Pacotes de Investimento -->
-    <section class="pricing" id="pricing">
-        <div class="container">
-            <h2 style="text-align: center;">PACOTES DE INVESTIMENTO</h2>
             
-            <div class="pricing-grid">
-                <!-- STARTER -->
-                <div class="pricing-card">
-                    <div class="pricing-header">
-                        <h3>STARTER</h3>
-                        <div class="price">R$ 500<span>/mês</span></div>
-                    </div>
-                    <ul class="features-list">
-                        <li>1 Campanha Ativa</li>
-                        <li>Automação Básica</li>
-                        <li>Templates Padrão</li>
-                        <li>Relatório Mensal</li>
-                    </ul>
-                    <a href="#contato" class="btn-gradient" style="background: #222; border: 1px solid #444;">SELECIONAR</a>
+            <div class="benefits">
+                <div class="benefit">
+                    <div class="benefit-icon">⏱️</div>
+                    <h3>Economize Tempo</h3>
+                    <p>5-10 horas/semana</p>
                 </div>
-
-                <!-- GROWTH -->
-                <div class="pricing-card featured">
-                    <div class="pricing-header">
-                        <h3 class="gradient-text">GROWTH</h3>
-                        <div class="price">R$ 1.500<span>/mês</span></div>
-                    </div>
-                    <ul class="features-list">
-                        <li>3 Campanhas Simultâneas</li>
-                        <li>Render Farm Prioritária</li>
-                        <li>Templates Customizáveis</li>
-                        <li>Dashboard de ROI</li>
-                        <li>Suporte Dedicado</li>
-                    </ul>
-                    <a href="#contato" class="btn-gradient">SELECIONAR</a>
+                <div class="benefit">
+                    <div class="benefit-icon">📈</div>
+                    <h3>Mais Engajamento</h3>
+                    <p>30-100% mais resultados</p>
                 </div>
-
-                <!-- PREMIUM -->
-                <div class="pricing-card">
-                    <div class="pricing-header">
-                        <h3>PREMIUM</h3>
-                        <div class="price">R$ 3.000<span>/mês</span></div>
-                    </div>
-                    <ul class="features-list">
-                        <li>5+ Campanhas</li>
-                        <li>ROI Máximo</li>
-                        <li>API Integrada</li>
-                        <li>Consultoria Estratégica</li>
-                        <li>Acesso Beta a Novos Módulos</li>
-                    </ul>
-                    <a href="#contato" class="btn-gradient" style="background: #222; border: 1px solid #444;">SELECIONAR</a>
+                <div class="benefit">
+                    <div class="benefit-icon">💸</div>
+                    <h3>Reduza Custos</h3>
+                    <p>Sem equipe fixa</p>
                 </div>
             </div>
-        </div>
-    </section>
 
-    <!-- Footer -->
-    <footer id="contato">
-        <div class="container">
-            <h2 style="margin-bottom: 20px; color: white;">PRONTO PARA ESCALAR?</h2>
-            <p style="margin-bottom: 30px;">Agência de um homem só. Resultados de uma frota.</p>
-            <a href="mailto:contato@sputnikfive.com" class="btn-gradient">INICIAR PROJETO</a>
-            <br><br><br>
-            <p style="font-size: 0.8rem;">&copy; 2024 SPUTNIK FIVE. Marcelo Puschnick. Todos os direitos reservados.</p>
+            <button class="btn" onclick="nextStep(0)">INICIAR DIAGNÓSTICO</button>
         </div>
-    </footer>
 
+        <!-- Pergunta 1 -->
+        <div class="step" id="step1">
+            <h2>PERGUNTA <span class="gradient-text">1/8</span></h2>
+            <div class="progress-bar"><div class="progress" style="width: 12.5%"></div></div>
+            <div class="question">Quantas horas por semana você gasta criando conteúdo para redes sociais?</div>
+            <div class="options">
+                <div class="option" onclick="selectOption(1, 5)">Mais de 10 horas (me consome)</div>
+                <div class="option" onclick="selectOption(1, 4)">5-10 horas (é bastante tempo)</div>
+                <div class="option" onclick="selectOption(1, 3)">2-5 horas (até que vai)</div>
+                <div class="option" onclick="selectOption(1, 2)">Menos de 2 horas (quando sobra)</div>
+                <div class="option" onclick="selectOption(1, 1)">Não crio conteúdo regularmente</div>
+            </div>
+            <button class="btn" onclick="nextStep(1)" disabled>PRÓXIMA</button>
+        </div>
+
+        <!-- Pergunta 2 -->
+        <div class="step" id="step2">
+            <h2>PERGUNTA <span class="gradient-text">2/8</span></h2>
+            <div class="progress-bar"><div class="progress" style="width: 25%"></div></div>
+            <div class="question">Seu conteúdo tem engajamento consistente (curtidas, comentários, compartilhamentos)?</div>
+            <div class="options">
+                <div class="option" onclick="selectOption(2, 1)">Sim, sempre engaja bem</div>
+                <div class="option" onclick="selectOption(2, 2)">Às vezes, mas é imprevisível</div>
+                <div class="option" onclick="selectOption(2, 4)">Raramente, quase não tem interação</div>
+                <div class="option" onclick="selectOption(2, 5)">Não, parece que ninguém vê</div>
+            </div>
+            <button class="btn" onclick="nextStep(2)" disabled>PRÓXIMA</button>
+        </div>
+
+        <!-- Pergunta 3 -->
+        <div class="step" id="step3">
+            <h2>PERGUNTA <span class="gradient-text">3/8</span></h2>
+            <div class="progress-bar"><div class="progress" style="width: 37.5%"></div></div>
+            <div class="question">Você consegue manter uma frequência constante de publicação?</div>
+            <div class="options">
+                <div class="option" onclick="selectOption(3, 1)">Sim, publico regularmente</div>
+                <div class="option" onclick="selectOption(3, 3)">Começo bem, mas perco o ritmo</div>
+                <div class="option" onclick="selectOption(3, 4)">Publico quando lembro/sobra tempo</div>
+                <div class="option" onclick="selectOption(3, 5)">Não, é muito irregular</div>
+            </div>
+            <button class="btn" onclick="nextStep(3)" disabled>PRÓXIMA</button>
+        </div>
+
+        <!-- Pergunta 4 -->
+        <div class="step" id="step4">
+            <h2>PERGUNTA <span class="gradient-text">4/8</span></h2>
+            <div class="progress-bar"><div class="progress" style="width: 50%"></div></div>
+            <div class="question">Seu conteúdo já gerou clientes ou vendas diretamente?</div>
+            <div class="options">
+                <div class="option" onclick="selectOption(4, 1)">Sim, consistentemente</div>
+                <div class="option" onclick="selectOption(4, 2)">Às vezes, mas não é constante</div>
+                <div class="option" onclick="selectOption(4, 4)">Raramente, resultados mínimos</div>
+                <div class="option" onclick="selectOption(4, 5)">Não, zero resultados comerciais</div>
+            </div>
+            <button class="btn" onclick="nextStep(4)" disabled>PRÓXIMA</button>
+        </div>
+
+        <!-- Pergunta 5 -->
+        <div class="step" id="step5">
+            <h2>PERGUNTA <span class="gradient-text">5/8</span></h2>
+            <div class="progress-bar"><div class="progress" style="width: 62.5%"></div></div>
+            <div class="question">Você tem uma estratégia clara de conteúdo (planejamento, persona, funil)?</div>
+            <div class="options">
+                <div class="option" onclick="selectOption(5, 1)">Sim, muito bem definida</div>
+                <div class="option" onclick="selectOption(5, 2)">Tenho uma ideia básica</div>
+                <div class="option" onclick="selectOption(5, 4)">Não, vou criando no feeling</div>
+                <div class="option" onclick="selectOption(5, 5)">Estratégia? O que é isso?</div>
+            </div>
+            <button class="btn" onclick="nextStep(5)" disabled>PRÓXIMA</button>
+        </div>
+
+        <!-- Pergunta 6 -->
+        <div class="step" id="step6">
+            <h2>PERGUNTA <span class="gradient-text">6/8</span></h2>
+            <div class="progress-bar"><div class="progress" style="width: 75%"></div></div>
+            <div class="question">Como você se sente sobre a qualidade visual do seu conteúdo?</div>
+            <div class="options">
+                <div class="option" onclick="selectOption(6, 1)">Profissional, igual de agência</div>
+                <div class="option" onclick="selectOption(6, 2)">Boa, mas poderia ser melhor</div>
+                <div class="option" onclick="selectOption(6, 4)">Amadora, não tenho equipamento/tempo</div>
+                <div class="option" onclick="selectOption(6, 5)">Ruim, não tenho habilidades</div>
+            </div>
+            <button class="btn" onclick="nextStep(6)" disabled>PRÓXIMA</button>
+        </div>
+
+        <!-- Pergunta 7 -->
+        <div class="step" id="step7">
+            <h2>PERGUNTA <span class="gradient-text">7/8</span></h2>
+            <div class="progress-bar"><div class="progress" style="width: 87.5%"></div></div>
+            <div class="question">Já pensou em contratar alguém para criar seu conteúdo?</div>
+            <div class="options">
+                <div class="option" onclick="selectOption(7, 5)">Sim, mas é muito caro</div>
+                <div class="option" onclick="selectOption(7, 4)">Sim, mas não achei quem entenda meu negócio</div>
+                <div class="option" onclick="selectOption(7, 3)">Pensei, mas prefiro fazer eu mesmo</div>
+                <div class="option" onclick="selectOption(7, 1)">Não, não preciso</div>
+            </div>
+            <button class="btn" onclick="nextStep(7)" disabled>PRÓXIMA</button>
+        </div>
+
+        <!-- Pergunta 8 -->
+        <div class="step" id="step8">
+            <h2>PERGUNTA <span class="gradient-text">8/8</span></h2>
+            <div class="progress-bar"><div class="progress" style="width: 100%"></div></div>
+            <div class="question">Se você ganhasse 10 horas por semana, o que faria com esse tempo extra?</div>
+            <div class="options">
+                <div class="option" onclick="selectOption(8, 5)">Atender mais clientes e faturar mais</div>
+                <div class="option" onclick="selectOption(8, 4)">Descansar e ter vida pessoal</div>
+                <div class="option" onclick="selectOption(8, 3)">Estudar e me especializar</div>
+                <div class="option" onclick="selectOption(8, 2)">Fazer outras tarefas do negócio</div>
+            </div>
+            <button class="btn" onclick="calculateResult()">VER RESULTADO</button>
+        </div>
+
+        <!-- Resultado -->
+        <div class="step" id="result">
+            <h1>🏆 DIAGNÓSTICO<span class="gradient-text">CONCLUÍDO</span></h1>
+            
+            <div class="score-label">Índice de Necessidade de Automação</div>
+            <div class="score" id="finalScore">00%</div>
+            
+            <div class="result-card">
+                <div class="recommendation" id="recommendation"></div>
+            </div>
+
+            <div class="solution-card">
+                <h2>💡 SOLUÇÃO RECOMENDADA</h2>
+                <div id="solution" style="margin-top: 10px; color: var(--text-secondary);"></div>
+            </div>
+
+            <div class="benefits">
+                <div class="benefit">
+                    <div class="benefit-icon">🎯</div>
+                    <h3>Diagnóstico</h3>
+                    <p>15min com especialista</p>
+                </div>
+                <div class="benefit">
+                    <div class="benefit-icon">📝</div>
+                    <h3>3 Posts Grátis</h3>
+                    <p>Teste sem compromisso</p>
+                </div>
+                <div class="benefit">
+                    <div class="benefit-icon">🚀</div>
+                    <h3>Plano Personalizado</h3>
+                    <p>Solução sob medida</p>
+                </div>
+            </div>
+
+            <div class="btn-group">
+                <button class="btn" onclick="scheduleCall()">AGENDAR DIAGNÓSTICO</button>
+                <button class="btn btn-secondary" onclick="restartQuiz()">REFAZER</button>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        let answers = {};
+        let currentStep = 0;
+
+        function nextStep(step) {
+            document.getElementById(`step${step}`).classList.remove('active');
+            document.getElementById(`step${step + 1}`).classList.add('active');
+            currentStep = step + 1;
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+        }
+
+        function selectOption(question, value) {
+            answers[question] = value;
+            
+            // Remover seleção anterior nesta pergunta
+            const options = document.querySelectorAll(`#step${question} .option`);
+            options.forEach(opt => opt.classList.remove('selected'));
+            
+            // Adicionar seleção atual
+            event.currentTarget.classList.add('selected');
+            
+            // Habilitar próximo botão
+            const btn = document.querySelector(`#step${question} .btn`);
+            if(btn) btn.disabled = false;
+        }
+
+        function calculateResult() {
+            let totalScore = 0;
+            for (let i = 1; i <= 8; i++) {
+                totalScore += answers[i] || 0;
+            }
+            
+            const maxScore = 40;
+            const percentage = Math.round((totalScore / maxScore) * 100);
+            
+            document.getElementById('finalScore').textContent = `${percentage}%`;
+            
+            // Lógica de recomendação
+            let recommendation = '';
+            let solution = '';
+            
+            if (percentage >= 80) {
+                recommendation = '🚨 <span class="gradient-text" style="font-weight:700">URGENTE:</span> Você está perdendo tempo e dinheiro! A automação vai transformar seu negócio imediatamente.';
+                solution = '<strong style="color:#FF5E00">Plano Priority:</strong> Implementação em 48h com conteúdo estratégico + tráfego pago integrado.';
+            } else if (percentage >= 60) {
+                recommendation = '⚠️ <span class="gradient-text" style="font-weight:700">ALTA NECESSIDADE:</span> Você tem grande potencial não explorado com sua produção atual.';
+                solution = '<strong style="color:#FF5E00">Plano Growth:</strong> Sistema completo de automação + métricas avançadas para escalar.';
+            } else if (percentage >= 40) {
+                recommendation = '📈 <span class="gradient-text" style="font-weight:700">OPORTUNIDADE:</span> Você pode melhorar significativamente seus resultados com otimização.';
+                solution = '<strong style="color:#FF5E00">Plano Starter:</strong> Automação básica para testar e validar resultados com baixo investimento.';
+            } else {
+                recommendation = '👍 <span class="gradient-text" style="font-weight:700">BOM CONTROLE:</span> Você já tem uma boa base, mas pode otimizar processos.';
+                solution = '<strong style="color:#FF5E00">Consultoria Estratégica:</strong> Ajustes pontuais para potencializar seus resultados atuais.';
+            }
+            
+            document.getElementById('recommendation').innerHTML = recommendation;
+            document.getElementById('solution').innerHTML = solution;
+            
+            // Transição para resultado
+            document.getElementById('step8').classList.remove('active');
+            document.getElementById('result').classList.add('active');
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+        }
+
+        function scheduleCall() {
+            const message = encodeURIComponent("Olá Marcelo! Fiz o quiz Sputnik Five e quero agendar meu diagnóstico grátis.");
+            window.open(`https://wa.me/551999462258?text=${message}`, '_blank');
+        }
+
+        function restartQuiz() {
+            answers = {};
+            currentStep = 0;
+            
+            // Resetar UI
+            document.querySelectorAll('.option').forEach(opt => opt.classList.remove('selected'));
+            document.querySelectorAll('.btn').forEach(btn => {
+                if(btn.textContent.includes('PRÓXIMA') || btn.textContent.includes('VER')) {
+                    btn.disabled = true;
+                }
+            });
+            
+            document.getElementById('result').classList.remove('active');
+            document.getElementById('step0').classList.add('active');
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+        }
+    </script>
 </body>
 </html>
