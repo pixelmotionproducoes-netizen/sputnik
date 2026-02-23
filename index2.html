@@ -1,0 +1,455 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SPUTNIK FIVE | Parceria em Automação de Criativos</title>
+    
+    <!-- Google Fonts: Montserrat -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;700;900&display=swap" rel="stylesheet">
+
+    <!-- Box Icons -->
+    <link href='https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css' rel='stylesheet'>
+
+    <style>
+        /* --- RESET & VARIAVEIS --- */
+        :root {
+            --bg-color: #050505;
+            --card-bg: #121212;
+            --text-main: #ffffff;
+            --text-muted: #888888;
+            --gradient-primary: linear-gradient(90deg, #FF5F00 0%, #FF0080 100%);
+            --gradient-secondary: linear-gradient(90deg, #00D4FF 0%, #0080FF 100%);
+            --font-main: 'Montserrat', sans-serif;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            background-color: var(--bg-color);
+            color: var(--text-main);
+            font-family: var(--font-main);
+            line-height: 1.6;
+            overflow-x: hidden;
+        }
+
+        /* --- TIPOGRAFIA --- */
+        h1, h2, h3 {
+            font-weight: 900;
+            text-transform: uppercase;
+            letter-spacing: -1px;
+        }
+
+        .gradient-text {
+            background: var(--gradient-primary);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .gradient-text-blue {
+            background: var(--gradient-secondary);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        /* --- LAYOUT UTILS --- */
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+
+        section {
+            padding: 80px 0;
+        }
+
+        /* --- HEADER --- */
+        header {
+            padding: 20px 0;
+            border-bottom: 1px solid #222;
+            position: fixed;
+            width: 100%;
+            background: var(--bg-color);
+            z-index: 1000;
+        }
+
+        nav {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .logo {
+            font-size: 1.5rem;
+            font-weight: 900;
+            letter-spacing: 2px;
+        }
+
+        .cta-button {
+            background: var(--gradient-primary);
+            color: white;
+            padding: 12px 30px;
+            border: none;
+            font-weight: 700;
+            text-transform: uppercase;
+            text-decoration: none;
+            border-radius: 4px;
+            transition: transform 0.2s;
+            display: inline-flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .cta-button:hover {
+            transform: scale(1.05);
+            box-shadow: 0 0 20px rgba(255, 0, 128, 0.4);
+        }
+
+        .cta-button-secondary {
+            background: transparent;
+            border: 2px solid #FF5F00;
+            color: #FF5F00;
+        }
+
+        /* --- HERO SECTION --- */
+        .hero {
+            height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            text-align: center;
+            background: radial-gradient(circle at center, #1a050a 0%, #050505 70%);
+            padding-top: 80px;
+        }
+
+        .hero h1 {
+            font-size: 3.5rem;
+            line-height: 1.1;
+            margin-bottom: 20px;
+        }
+
+        .hero p {
+            font-size: 1.2rem;
+            color: var(--text-muted);
+            max-width: 600px;
+            margin: 0 auto 40px auto;
+        }
+
+        /* --- PARCEIROS SECTION --- */
+        .parceiros {
+            background: #0a0a0a;
+            padding: 60px 0;
+        }
+
+        .parceiros-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 30px;
+            align-items: center;
+        }
+
+        .parceiro-item {
+            text-align: center;
+            padding: 20px;
+        }
+
+        .parceiro-item img {
+            max-width: 120px;
+            height: 60px;
+            object-fit: contain;
+            filter: grayscale(1) brightness(2);
+            opacity: 0.7;
+        }
+
+        /* --- METODOLOGIA --- */
+        .modules-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 20px;
+            margin-top: 40px;
+        }
+
+        .card {
+            background: var(--card-bg);
+            padding: 30px;
+            border: 1px solid #222;
+            border-radius: 8px;
+            transition: 0.3s;
+        }
+
+        .card:hover {
+            border-color: #FF5F00;
+            transform: translateY(-5px);
+        }
+
+        .card-number {
+            font-size: 3rem;
+            font-weight: 900;
+            color: #222;
+            margin-bottom: 10px;
+            display: block;
+        }
+
+        .card h3 {
+            margin-bottom: 10px;
+            font-size: 1.2rem;
+        }
+
+        .card p {
+            font-size: 0.9rem;
+            color: var(--text-muted);
+        }
+
+        /* --- PROCESSO --- */
+        .processo {
+            background: #0a0a0a;
+        }
+
+        .processo-steps {
+            display: flex;
+            flex-direction: column;
+            gap: 40px;
+            max-width: 800px;
+            margin: 0 auto;
+        }
+
+        .step {
+            display: flex;
+            align-items: flex-start;
+            gap: 20px;
+        }
+
+        .step-number {
+            background: var(--gradient-primary);
+            color: black;
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: 900;
+            font-size: 1.5rem;
+            flex-shrink: 0;
+        }
+
+        /* --- METRICAS --- */
+        .metrics {
+            background: #050505;
+            border-top: 1px solid #222;
+            border-bottom: 1px solid #222;
+        }
+
+        .metrics-container {
+            display: flex;
+            justify-content: space-around;
+            flex-wrap: wrap;
+            text-align: center;
+            gap: 30px;
+        }
+
+        .metric-item h3 {
+            font-size: 3rem;
+            margin-bottom: 5px;
+        }
+
+        /* --- FOOTER --- */
+        footer {
+            padding: 60px 0 40px 0;
+            text-align: center;
+            border-top: 1px solid #222;
+        }
+
+        .contact-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 40px;
+            margin-bottom: 40px;
+        }
+
+        .contact-card {
+            text-align: center;
+            padding: 30px;
+        }
+
+        .contact-card i {
+            font-size: 2rem;
+            margin-bottom: 15px;
+            color: #FF5F00;
+        }
+
+        /* --- RESPONSIVIDADE --- */
+        @media (max-width: 768px) {
+            .hero h1 { font-size: 2.5rem; }
+            .metrics-container { flex-direction: column; }
+            .step { flex-direction: column; text-align: center; }
+        }
+    </style>
+</head>
+<body>
+
+    <!-- Header -->
+    <header>
+        <div class="container">
+            <nav>
+                <div class="logo">SPUTNIK<span class="gradient-text">FIVE</span></div>
+                <a href="#contato" class="cta-button">
+                    <i class='bx bx-phone'></i>
+                    Falar com Marcelo
+                </a>
+            </nav>
+        </div>
+    </header>
+
+    <!-- Hero Section -->
+    <section class="hero">
+        <div class="container">
+            <h1>Seu Parceiro em<br><span class="gradient-text">Automação de Criativos</span></h1>
+            <p>Não vendo horas de trabalho. Ofereço uma parceria estratégica para escalar sua presença digital com conteúdo profissional.</p>
+            <div style="display: flex; gap: 20px; justify-content: center; flex-wrap: wrap; margin-top: 40px;">
+                <a href="#processo" class="cta-button">
+                    <i class='bx bx-rocket'></i>
+                    Como Funciona
+                </a>
+                <a href="#contato" class="cta-button cta-button-secondary">
+                    <i class='bx bx-message-detail'></i>
+                    Agendar Call
+                </a>
+            </div>
+        </div>
+    </section>
+
+    <!-- Parceiros Section -->
+    <section class="parceiros">
+        <div class="container">
+            <h2 style="text-align: center; margin-bottom: 40px;">Trabalhamos com <span class="gradient-text-blue">Contas de Alto Impacto</span></h2>
+            <div class="parceiros-grid">
+                <div class="parceiro-item">
+                    <div style="font-size: 1.1rem; font-weight: 700;">Cesar Urnhani</div>
+                    <div style="color: var(--text-muted); font-size: 0.9rem;">Maior influenciador automotivo</div>
+                </div>
+                <div class="parceiro-item">
+                    <div style="font-size: 1.1rem; font-weight: 700;">Dr. Ayrton</div>
+                    <div style="color: var(--text-muted); font-size: 0.9rem;">0 a 100k no TikTok em 10 meses</div>
+                </div>
+                <div class="parceiro-item">
+                    <div style="font-size: 1.1rem; font-weight: 700;">Família Chitão</div>
+                    <div style="color: var(--text-muted); font-size: 0.9rem;">Gestão de conteúdo familiar</div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Processo -->
+    <section id="processo" class="processo">
+        <div class="container">
+            <h2 style="text-align: center; margin-bottom: 40px;">Nosso Processo de <span class="gradient-text">Parceria</span></h2>
+            
+            <div class="processo-steps">
+                <div class="step">
+                    <div class="step-number">1</div>
+                    <div>
+                        <h3>Diagnóstico Estratégico</h3>
+                        <p>Analisamos seu negócio, objetivos e audiência para criar um plano personalizado.</p>
+                    </div>
+                </div>
+                
+                <div class="step">
+                    <div class="step-number">2</div>
+                    <div>
+                        <h3>Desenvolvimento Conjunto</h3>
+                        <p>Trabalhamos juntos nos primeiros conteúdos para refinar voz e estratégia.</p>
+                    </div>
+                </div>
+                
+                <div class="step">
+                    <div class="step-number">3</div>
+                    <div>
+                        <h3>Automação Progressiva</h3>
+                        <p>Implementamos o sistema gradualmente, com ajustes contínuos baseados em resultados.</p>
+                    </div>
+                </div>
+                
+                <div class="step">
+                    <div class="step-number">4</div>
+                    <div>
+                        <h3>Otimização Contínua</h3>
+                        <p>Monitoramos resultados e refinamos a estratégia para maximizar seu ROI.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Resultados -->
+    <section class="metrics">
+        <div class="container metrics-container">
+            <div class="metric-item">
+                <h3><span class="gradient-text">15-20</span></h3>
+                <p>Vídeos profissionais/semana</p>
+            </div>
+            <div class="metric-item">
+                <h3><span class="gradient-text">70%</span></h3>
+                <p>Mais tempo para estratégia</p>
+            </div>
+            <div class="metric-item">
+                <h3><span class="gradient-text">100k</span></h3>
+                <p>Seguidores em 10 meses</p>
+            </div>
+        </div>
+    </section>
+
+    <!-- Contato -->
+    <footer id="contato">
+        <div class="container">
+            <h2 style="margin-bottom: 20px;">Pronto para uma Parceria Estratégica?</h2>
+            <p style="margin-bottom: 40px; max-width: 600px; margin-left: auto; margin-right: auto;">
+                Não vendemos pacotes genéricos. Criamos soluções personalizadas que se adaptam ao seu negócio.
+            </p>
+            
+            <div class="contact-grid">
+                <div class="contact-card">
+                    <i class='bx bx-phone'></i>
+                    <h3>WhatsApp</h3>
+                    <p>Resposta rápida</p>
+                    <a href="https://wa.me/551999462258" class="cta-button" target="_blank" style="margin-top: 15px;">
+                        Enviar Mensagem
+                    </a>
+                </div>
+                
+                <div class="contact-card">
+                    <i class='bx bx-video'></i>
+                    <h3>Videochamada</h3>
+                    <p>15 minutos gratuitos</p>
+                    <a href="https://calendly.com/marcelopuschnick/15min" class="cta-button" target="_blank" style="margin-top: 15px;">
+                        Agendar Call
+                    </a>
+                </div>
+                
+                <div class="contact-card">
+                    <i class='bx bx-envelope'></i>
+                    <h3>E-mail</h3>
+                    <p>Resposta em 24h</p>
+                    <a href="mailto:marcelopuschnick@gmail.com" class="cta-button" target="_blank" style="margin-top: 15px;">
+                        Enviar E-mail
+                    </a>
+                </div>
+            </div>
+            
+            <br><br>
+            <p><small>"Não contrate mão de obra. Contrate um parceiro estratégico."</small></p>
+            <br>
+            <p>&copy; 2024 SPUTNIK FIVE. Marcelo Puschnick.</p>
+        </div>
+    </footer>
+
+</body>
+</html>
